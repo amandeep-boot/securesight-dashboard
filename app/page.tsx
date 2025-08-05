@@ -1,27 +1,31 @@
-import prisma from "@/lib/prisma";
+import Navbar from './components/Navbar';
+import IncidentPlayer from './components/IncidentPlayer';
+import IncidentList from './components/IncidentList';
 
-export default async function Home() {
-  const users = await prisma.incident.findMany();
+export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
-      <h1 className="text-4xl font-bold mb-8 font-[family-name:var(--font-geist-sans)] text-[#333333]">
-        Superblog
-      </h1>
-      <ol className="list-decimal list-inside font-[family-name:var(--font-geist-sans)]">
-        {users.map((user) => (
-            <li key={user.id} className="mb-2 text-black">
-              <p>
-                {user.cameraId}
-              </p>
-              <p>
-                {user.resolved}
-              </p>
-              <p>
-                {user.tsStart.getTime()}
-              </p>
-            </li>    
-        ))}
-      </ol>
+    <div className="min-h-screen bg-black-100 text-white flex flex-col relative overflow-hidden">
+      {/* Subtle half oval yellow shade background */}
+      <div
+        className="absolute left-1/2 top-0 -translate-x-1/2 z-0 pointer-events-none"
+        style={{
+          width: '520px',
+          height: '110px',
+          background: 'radial-gradient(ellipse 60% 100% at 50% 0%, #FFCC00 10%, transparent 80%)',
+          opacity: 0.12,
+          filter: 'blur(4px)',
+        }}
+      />
+      <Navbar />
+      <div className="flex flex-1 overflow-hidden relative z-10">
+        <div className="w-2/3 p-6 flex flex-col">
+          <IncidentPlayer />
+          {/* Timeline component can go here */}
+        </div>
+        <div className="w-1/3 p-6 overflow-y-auto">
+          <IncidentList />
+        </div>
+      </div>
     </div>
   );
 }
